@@ -1,0 +1,29 @@
+service: service-warranty-reminder
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  region: eu-west-2
+
+# useDotenv: true
+
+# you can overwrite defaults here
+#  stage: dev
+
+# you can add packaging information here
+#package:
+#  patterns:
+#    - '!exclude-me.js'
+#    - '!exclude-me-dir/**'
+#    - include-me.js
+#    - include-me-dir/**
+
+functions:
+  services-reminder:
+    handler: handler.servicesReminder
+    name: ${sls:stage}--services-reminder
+    events:
+      - schedule: rate(1 minute)

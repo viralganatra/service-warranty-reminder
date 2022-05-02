@@ -4,3 +4,6 @@ node_modules
 creds
 .DS_Store
 .bak
+dist
+build
+.build

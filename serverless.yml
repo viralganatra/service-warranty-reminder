@@ -8,10 +8,13 @@ provider:
   runtime: nodejs14.x
   region: eu-west-2
 
-# useDotenv: true
-
-# you can overwrite defaults here
-#  stage: dev
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - ssm:GetParameters
+          Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${sls:stage}/${self:service}/*'
 
 # you can add packaging information here
 #package:
@@ -24,6 +27,8 @@ provider:
 functions:
   services-reminder:
     handler: handler.servicesReminder
-    name: ${sls:stage}--services-reminder
+    name: ${sls:stage}--${self:service}
+    environment:
+      SSM_PATH: /${sls:stage}/${self:service}
     events:
       - schedule: rate(1 minute)

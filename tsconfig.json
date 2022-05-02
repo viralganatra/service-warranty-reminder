@@ -1,0 +1,14 @@
+{
+  "extends": "@tsconfig/node14",
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "sourceMap": false,
+    "outDir": "build",
+    "baseUrl": ".",
+    "rootDir": "./"
+  }
+}

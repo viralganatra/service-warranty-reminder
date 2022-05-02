@@ -1,13 +1,19 @@
-const { differenceInHours, startOfToday } = require('date-fns');
-const formatResponse = require('../../utils/format-response');
-const sendEmail = require('../../lib/email');
-const { getSuccessEmail, getErrorEmail } = require('./generate-email-template');
-const googleSpreadsheet = require('./google-spreadsheet');
+import { differenceInHours, startOfToday } from 'date-fns';
+import formatResponse from '../../utils/format-response';
+import sendEmail from '../../lib/email';
+import { getSuccessEmail, getErrorEmail } from './generate-email-template';
+import googleSpreadsheet from './google-spreadsheet';
+import { Property } from '../../types/data';
 
 const HOURS_IN_DAY = 24;
 const REMIND_IN_DAYS = [2, 7, 14];
 
-function calculateIfDateExpiring({ linkToCertificate, property, expiryDate, certificateType }) {
+function calculateIfDateExpiring({
+  linkToCertificate,
+  property,
+  expiryDate,
+  certificateType,
+}: Property) {
   // Probably not the best idea using Date.parse given inconsistencies in
   // non-standard date strings but YOLO...
   const formattedExpiryDate = new Date(Date.parse(expiryDate));
@@ -32,7 +38,7 @@ function calculateIfDateExpiring({ linkToCertificate, property, expiryDate, cert
   }
 }
 
-async function caclulateAllExpiringServices(items) {
+async function caclulateAllExpiringServices(items: Property[]) {
   const promises = items.map((item) => calculateIfDateExpiring(item));
 
   if (!promises.filter(Boolean).length) {
@@ -42,11 +48,11 @@ async function caclulateAllExpiringServices(items) {
   return Promise.all(promises);
 }
 
-async function servicesReminder() {
+export default async function servicesReminder() {
   console.log('Starting services reminder');
 
   try {
-    const data = await googleSpreadsheet.getData();
+    const data = await googleSpreadsheet();
 
     await caclulateAllExpiringServices(data);
 
@@ -61,5 +67,3 @@ async function servicesReminder() {
     console.log('Finished services reminder');
   }
 }
-
-module.exports = servicesReminder;

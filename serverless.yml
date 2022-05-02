@@ -1,6 +1,8 @@
 service: service-warranty-reminder
+configValidationMode: error
 
 plugins:
+  - serverless-plugin-typescript
   - serverless-offline
 
 provider:

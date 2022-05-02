@@ -1,4 +1,4 @@
-function getCommonTemplate(data) {
+export default function getCommonTemplate(data: string) {
   return `
   <!DOCTYPE html>
   <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -101,5 +101,3 @@ function getCommonTemplate(data) {
     </html>
   `;
 }
-
-module.exports = getCommonTemplate;

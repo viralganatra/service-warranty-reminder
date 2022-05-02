@@ -1,4 +1,5 @@
-const template = require('../../utils/email-template');
+import template from '../../utils/email-template';
+import { PropertyWithExpiration } from '../../types/data';
 
 function getSuccessTemplate({
   linkToCertificate,
@@ -7,7 +8,7 @@ function getSuccessTemplate({
   certificateType,
   expiringInDays,
   hasExpired,
-}) {
+}: PropertyWithExpiration) {
   return template(`
     ${
       hasExpired
@@ -31,7 +32,7 @@ function getSuccessTemplate({
   `);
 }
 
-function getErrorTemplate(data) {
+function getErrorTemplate(data: string | object) {
   return template(`
     <h1>Something went wrong with property service warranty</h1>
     <p>Please check the logs for errors</p>
@@ -39,22 +40,22 @@ function getErrorTemplate(data) {
   `);
 }
 
-function getSubjectLine({ certificateType, property, hasExpired }) {
+function getSubjectLine({ certificateType, property, hasExpired }: PropertyWithExpiration) {
   const expiredStr = hasExpired ? 'expired' : 'expiring';
 
   return `${certificateType} warranty ${expiredStr} for ${property} - please take action`;
 }
 
-exports.getSuccessEmail = function getSuccessEmail(data) {
+export function getSuccessEmail(data: PropertyWithExpiration) {
   return {
     subject: getSubjectLine(data),
     html: getSuccessTemplate(data),
   };
-};
+}
 
-exports.getErrorEmail = function getErrorEmail(data) {
+export function getErrorEmail(data: string | object) {
   return {
     subject: 'Error with property service warranty',
     html: getErrorTemplate(data),
   };
-};
+}

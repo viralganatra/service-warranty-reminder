@@ -9,6 +9,7 @@ provider:
   name: aws
   runtime: nodejs14.x
   region: eu-west-2
+  logRetentionInDays: 30
 
   iam:
     role:
@@ -32,5 +33,7 @@ functions:
     name: ${sls:stage}--${self:service}
     environment:
       SSM_PATH: /${sls:stage}/${self:service}
+      SERVICE_NAME: ${self:service}
+      LOG_LEVEL: INFO
     events:
-      - schedule: rate(1 minute)
+      - schedule: rate(10 minutes)

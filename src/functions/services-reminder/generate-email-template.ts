@@ -1,5 +1,5 @@
 import template from '../../utils/email-template';
-import { PropertyWithExpiration } from '../../types/data';
+import { ServiceWithExpiration } from '../../types/data';
 
 function getSuccessTemplate({
   linkToCertificate,
@@ -8,7 +8,7 @@ function getSuccessTemplate({
   certificateType,
   expiringInDays,
   hasExpired,
-}: PropertyWithExpiration) {
+}: ServiceWithExpiration) {
   return template(`
     ${
       hasExpired
@@ -40,13 +40,13 @@ function getErrorTemplate(data: string | object) {
   `);
 }
 
-function getSubjectLine({ certificateType, property, hasExpired }: PropertyWithExpiration) {
+function getSubjectLine({ certificateType, property, hasExpired }: ServiceWithExpiration) {
   const expiredStr = hasExpired ? 'expired' : 'expiring';
 
   return `${certificateType} warranty ${expiredStr} for ${property} - please take action`;
 }
 
-export function getSuccessEmail(data: PropertyWithExpiration) {
+export function getSuccessEmail(data: ServiceWithExpiration) {
   return {
     subject: getSubjectLine(data),
     html: getSuccessTemplate(data),

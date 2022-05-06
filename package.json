@@ -14,13 +14,16 @@
     "format": "prettier --write ."
   },
   "dependencies": {
+    "@aws-lambda-powertools/logger": "^0.8.1",
     "@aws-sdk/client-ssm": "^3.75.0",
     "date-fns": "^2.28.0",
     "google-spreadsheet": "^3.2.0",
-    "sparkpost": "^2.1.4"
+    "sparkpost": "^2.1.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tsconfig/node14": "^1.0.1",
+    "@types/aws-lambda": "^8.10.95",
     "@types/google-spreadsheet": "^3.2.1",
     "@types/node": "^17.0.25",
     "@types/serverless": "^3.12.0",

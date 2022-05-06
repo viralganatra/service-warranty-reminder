@@ -3,6 +3,7 @@ configValidationMode: error
 
 plugins:
   - serverless-plugin-typescript
+  - serverless-prune-plugin
   - serverless-offline
 
 provider:
@@ -37,3 +38,8 @@ functions:
       LOG_LEVEL: INFO
     events:
       - schedule: rate(10 minutes)
+
+custom:
+  prune:
+    automatic: true
+    number: 3

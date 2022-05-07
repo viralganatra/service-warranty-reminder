@@ -20,13 +20,10 @@ provider:
             - ssm:GetParameters
           Resource: !Sub 'arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${sls:stage}/${self:service}/*'
 
-# you can add packaging information here
-#package:
-#  patterns:
-#    - '!exclude-me.js'
-#    - '!exclude-me-dir/**'
-#    - include-me.js
-#    - include-me-dir/**
+package:
+  patterns:
+    - '!creds/**'
+    - '!.env'
 
 functions:
   services-reminder:

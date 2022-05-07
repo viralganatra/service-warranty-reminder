@@ -34,7 +34,7 @@ functions:
       SERVICE_NAME: ${self:service}
       LOG_LEVEL: INFO
     events:
-      - schedule: rate(10 minutes)
+      - schedule: rate(1 day)
 
 custom:
   prune:

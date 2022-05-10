@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsc",
     "start": "serverless offline start",
-    "deploy": "serverless deploy --stage production",
+    "deploy": "serverless deploy --stage prod",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write ."
   },

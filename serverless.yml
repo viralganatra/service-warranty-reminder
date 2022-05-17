@@ -27,6 +27,7 @@ package:
     - '!__tests__'
     - '!__fixtures__'
     - '!__mocks__'
+    - '!coverage'
 
 functions:
   services-reminder:

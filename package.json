@@ -12,6 +12,7 @@
     "deploy": "serverless deploy --stage prod",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write .",
+    "typecheck": "tsc -b",
     "test": "jest",
     "test:watch": "jest --watch"
   },

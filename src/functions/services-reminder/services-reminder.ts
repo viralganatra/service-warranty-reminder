@@ -81,7 +81,7 @@ const servicesReminder =
     } catch (err) {
       logger.error(err.toString(), err as Error);
 
-      sendEmail(getErrorEmail(err.stack));
+      await sendEmail(getErrorEmail(err.stack));
 
       return formatResponse(500, err.toString());
     } finally {

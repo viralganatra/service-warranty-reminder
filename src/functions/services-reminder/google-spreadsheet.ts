@@ -4,9 +4,9 @@ import { ParameterWithRequired } from '../../types/secrets';
 import getSSMParams from '../../utils/ssm';
 import validateSchema from '../../utils/validate-schema';
 
-const tuple = <T extends string[]>(...o: T) => o;
+const arr = <T extends string[]>(...o: T) => o;
 
-const SSM_PARAMS = tuple('googleSpreadsheetId', 'googleServiceAccountEmail', 'googlePrivateKey');
+const SSM_PARAMS = arr('googleSpreadsheetId', 'googleServiceAccountEmail', 'googlePrivateKey');
 
 const secretsSchema = object({
   googleServiceAccountEmail: object({

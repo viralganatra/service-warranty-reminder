@@ -16,5 +16,11 @@ module.exports = {
   rules: {
     'node/no-unsupported-features/es-syntax': ['off'],
     'node/no-missing-import': ['off'],
+    'node/no-unpublished-import': [
+      'error',
+      {
+        allowModules: ['aws-sdk-client-mock'],
+      },
+    ],
   },
 };

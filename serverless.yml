@@ -33,6 +33,7 @@ functions:
       SSM_PATH: /${sls:stage}/${self:service}
       SERVICE_NAME: ${self:service}
       LOG_LEVEL: INFO
+      NODE_OPTIONS: --enable-source-maps
     events:
       - schedule: rate(1 day)
 

@@ -6,7 +6,7 @@
     "useUnknownInCatchVariables": false,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "outDir": "build",
     "baseUrl": ".",
     "rootDir": "./"

@@ -24,6 +24,9 @@ package:
   patterns:
     - '!creds/**'
     - '!.env'
+    - '!__tests__'
+    - '!__fixtures__'
+    - '!__mocks__'
 
 functions:
   services-reminder:

@@ -25,7 +25,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@tsconfig/node14": "^1.0.1",
+    "@tsconfig/node16": "^1.0.2",
     "@types/aws-lambda": "^8.10.95",
     "@types/google-spreadsheet": "^3.2.1",
     "@types/jest": "^27.5.0",
@@ -40,7 +40,7 @@
     "eslint-plugin-node": "^11.1.0",
     "jest": "^28.1.0",
     "prettier": "^2.6.2",
-    "serverless-offline": "^8.7.0",
+    "serverless-offline": "^8.8.0",
     "serverless-plugin-typescript": "^2.1.2",
     "serverless-prune-plugin": "^2.0.1",
     "ts-jest": "^28.0.2",

@@ -17,25 +17,25 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@aws-lambda-powertools/logger": "^0.8.1",
-    "@aws-sdk/client-ssm": "^3.75.0",
+    "@aws-lambda-powertools/logger": "^0.9.0",
+    "@aws-sdk/client-ssm": "^3.92.0",
     "date-fns": "^2.28.0",
-    "google-spreadsheet": "^3.2.0",
+    "google-spreadsheet": "^3.3.0",
     "sparkpost": "^2.1.4",
     "yup": "^0.32.11"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",
-    "@types/aws-lambda": "^8.10.95",
-    "@types/google-spreadsheet": "^3.2.1",
-    "@types/jest": "^27.5.0",
-    "@types/node": "^17.0.25",
-    "@types/serverless": "^3.12.0",
+    "@types/aws-lambda": "^8.10.97",
+    "@types/google-spreadsheet": "^3.2.2",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^17.0.34",
+    "@types/serverless": "^3.12.5",
     "@types/sparkpost": "^2.1.5",
-    "@typescript-eslint/eslint-plugin": "^5.20.0",
-    "@typescript-eslint/parser": "^5.20.0",
+    "@typescript-eslint/eslint-plugin": "^5.25.0",
+    "@typescript-eslint/parser": "^5.25.0",
     "aws-sdk-client-mock": "^0.6.2",
-    "eslint": "^8.14.0",
+    "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
     "jest": "^28.1.0",
@@ -44,6 +44,6 @@
     "serverless-plugin-typescript": "^2.1.2",
     "serverless-prune-plugin": "^2.0.1",
     "ts-jest": "^28.0.2",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.4"
   }
 }

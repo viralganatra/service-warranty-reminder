@@ -14,7 +14,9 @@
     "format": "prettier --write .",
     "typecheck": "tsc -b",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky install",
+    "validate": "./scripts/validate.sh"
   },
   "dependencies": {
     "@aws-lambda-powertools/logger": "^0.9.0",
@@ -35,15 +37,21 @@
     "@typescript-eslint/eslint-plugin": "^5.25.0",
     "@typescript-eslint/parser": "^5.25.0",
     "aws-sdk-client-mock": "^0.6.2",
+    "concurrently": "^7.2.0",
     "eslint": "^8.15.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-node": "^11.1.0",
+    "husky": "^8.0.1",
     "jest": "^28.1.0",
+    "lint-staged": "^12.4.1",
     "prettier": "^2.6.2",
     "serverless-offline": "^8.8.0",
     "serverless-plugin-typescript": "^2.1.2",
     "serverless-prune-plugin": "^2.0.1",
     "ts-jest": "^28.0.2",
     "typescript": "^4.6.4"
+  },
+  "lint-staged": {
+    "*.ts": "npm run format"
   }
 }

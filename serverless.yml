@@ -39,7 +39,7 @@ functions:
       LOG_LEVEL: INFO
       NODE_OPTIONS: --enable-source-maps
     events:
-      - schedule: rate(1 minute)
+      - schedule: cron(0 10 * * ? *)
 
 custom:
   prune:

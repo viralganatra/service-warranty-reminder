@@ -2,7 +2,7 @@ service: service-warranty-reminder
 configValidationMode: error
 
 plugins:
-  - serverless-plugin-typescript
+  - serverless-esbuild
   - serverless-prune-plugin
   - serverless-offline
 
@@ -45,3 +45,9 @@ custom:
   prune:
     automatic: true
     number: 3
+
+  esbuild:
+    sourcemap: external
+    mainFields:
+      - module
+      - main

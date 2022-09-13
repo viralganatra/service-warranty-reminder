@@ -40,14 +40,14 @@ describe('Google Spreadhseet', () => {
 
   it('should return an array of secret objects', async () => {
     expect(await googleSpreadsheet()).toMatchInlineSnapshot(`
-      Array [
-        Object {
+      [
+        {
           "certificateType": "cert 1",
           "expiryDate": "16-May-2022",
           "linkToCertificate": "https://www.google.com/1",
           "property": "property 1",
         },
-        Object {
+        {
           "certificateType": "cert 2",
           "expiryDate": "21-Dec-2024",
           "linkToCertificate": "https://www.google.com/2",

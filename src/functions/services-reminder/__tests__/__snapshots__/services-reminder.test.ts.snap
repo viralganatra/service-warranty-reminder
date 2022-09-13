@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Service reminder should send an email for service to notify 2`] = `
-Object {
+{
   "html": "
   <!DOCTYPE html>
-  <html lang=\\"en\\" xmlns:v=\\"urn:schemas-microsoft-com:vml\\" xmlns:o=\\"urn:schemas-microsoft-com:office:office\\">
+  <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     <head>
-      <meta charset=\\"utf-8\\">
-      <meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\">
-      <meta name=\\"format-detection\\" content=\\"telephone=no, date=no, address=no, email=no, url=no\\">
-      <meta name=\\"x-apple-disable-message-reformatting\\">
-      <meta name=\\"color-scheme\\" content=\\"light dark\\">
-      <meta name=\\"supported-color-schemes\\" content=\\"light dark\\">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+      <meta name="x-apple-disable-message-reformatting">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
       <!--[if mso]>
       <noscript>
         <xml>
@@ -81,16 +81,16 @@ Object {
         }
       </style>
     </head>
-    <body class=\\"body\\">
-      <div style=\\"font-size:16px; font-size:1rem;\\">
-        <div class=\\"container\\">
+    <body class="body">
+      <div style="font-size:16px; font-size:1rem;">
+        <div class="container">
           <!--[if true]>
-          <table role=\\"presentation\\" width=\\"100%\\" align=\\"center\\" style=\\"background:#ffffff\\">
+          <table role="presentation" width="100%" align="center" style="background:#ffffff">
             <tr>
               <td></td>
-              <td style=\\"width:600px;background:#ffffff;padding:24px;\\">
+              <td style="width:600px;background:#ffffff;padding:24px;">
           <![endif]-->
-                <div style=\\"max-width:600px; margin:0 auto;background:#ffffff;padding:0 24px;mso-padding-alt:0;\\">
+                <div style="max-width:600px; margin:0 auto;background:#ffffff;padding:0 24px;mso-padding-alt:0;">
                 
     
       <h1>Warranty Expired!</h1>
@@ -99,7 +99,7 @@ Object {
     <p>Please take action.</p>
     <hr />
     <h2>What to do</h2>
-    <p>You can <a href=\\"https://www.google.com/1\\">view the current certificate</a></p>
+    <p>You can <a href="https://www.google.com/1">view the current certificate</a></p>
 
     <p>
       Please contact the relevant party to renew the warranty or ignore this message if you do not wish to take action.
@@ -121,17 +121,17 @@ Object {
 `;
 
 exports[`Service reminder should send an email for service to notify 3`] = `
-Object {
+{
   "html": "
   <!DOCTYPE html>
-  <html lang=\\"en\\" xmlns:v=\\"urn:schemas-microsoft-com:vml\\" xmlns:o=\\"urn:schemas-microsoft-com:office:office\\">
+  <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     <head>
-      <meta charset=\\"utf-8\\">
-      <meta name=\\"viewport\\" content=\\"width=device-width,initial-scale=1\\">
-      <meta name=\\"format-detection\\" content=\\"telephone=no, date=no, address=no, email=no, url=no\\">
-      <meta name=\\"x-apple-disable-message-reformatting\\">
-      <meta name=\\"color-scheme\\" content=\\"light dark\\">
-      <meta name=\\"supported-color-schemes\\" content=\\"light dark\\">
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+      <meta name="x-apple-disable-message-reformatting">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
       <!--[if mso]>
       <noscript>
         <xml>
@@ -201,16 +201,16 @@ Object {
         }
       </style>
     </head>
-    <body class=\\"body\\">
-      <div style=\\"font-size:16px; font-size:1rem;\\">
-        <div class=\\"container\\">
+    <body class="body">
+      <div style="font-size:16px; font-size:1rem;">
+        <div class="container">
           <!--[if true]>
-          <table role=\\"presentation\\" width=\\"100%\\" align=\\"center\\" style=\\"background:#ffffff\\">
+          <table role="presentation" width="100%" align="center" style="background:#ffffff">
             <tr>
               <td></td>
-              <td style=\\"width:600px;background:#ffffff;padding:24px;\\">
+              <td style="width:600px;background:#ffffff;padding:24px;">
           <![endif]-->
-                <div style=\\"max-width:600px; margin:0 auto;background:#ffffff;padding:0 24px;mso-padding-alt:0;\\">
+                <div style="max-width:600px; margin:0 auto;background:#ffffff;padding:0 24px;mso-padding-alt:0;">
                 
     
       <h1>Warranty Expiring!</h1>
@@ -219,7 +219,7 @@ Object {
     <p>Please take action.</p>
     <hr />
     <h2>What to do</h2>
-    <p>You can <a href=\\"https://www.google.com/3\\">view the current certificate</a></p>
+    <p>You can <a href="https://www.google.com/3">view the current certificate</a></p>
 
     <p>
       Please contact the relevant party to renew the warranty or ignore this message if you do not wish to take action.

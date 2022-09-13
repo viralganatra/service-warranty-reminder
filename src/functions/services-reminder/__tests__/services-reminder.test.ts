@@ -48,9 +48,9 @@ describe('Service reminder', () => {
     expect(logger.info).lastCalledWith('Sending email for Property: property 5 cert 5 15-May-2022');
     expect(logger.info).toBeCalledTimes(4);
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "body": "{
-        \\"message\\": \\"Ok\\"
+        "message": "Ok"
       }",
         "statusCode": 200,
       }
@@ -68,9 +68,9 @@ describe('Service reminder', () => {
 
     expect(logger.info).lastCalledWith('No emails to send');
     expect(result).toMatchInlineSnapshot(`
-      Object {
+      {
         "body": "{
-        \\"message\\": \\"No emails to send\\"
+        "message": "No emails to send"
       }",
         "statusCode": 200,
       }

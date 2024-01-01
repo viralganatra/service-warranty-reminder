@@ -13,12 +13,12 @@ jobs:
       - name: 📥 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'pnpm'
 
       - name: 📥 Install dependencies
@@ -37,12 +37,12 @@ jobs:
       - name: 📥 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'pnpm'
 
       - name: 📥 Install dependencies
@@ -51,8 +51,8 @@ jobs:
       - name: 🔎 Type check
         run: pnpm typecheck
 
-  jest:
-    name: 🃏 Jest
+  vitest:
+    name: 🃏 Vitest
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
@@ -61,16 +61,21 @@ jobs:
       - name: 📥 Setup pnpm
         uses: pnpm/action-setup@v2
         with:
-          version: 7
+          version: 8
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 20
           cache: 'pnpm'
 
       - name: 📥 Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Set current date as env variable
+        run: echo "NOW=$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+      - name: Echo current date
+        run: echo $NOW # Gives "2022-12-11T01:42:20"
 
       - name: 🃏 Run the tests
         run: pnpm test

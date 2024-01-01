@@ -1,6 +1,6 @@
-export default function formatResponse(statusCode: number, payload: object | Error) {
+export const formatResponse = (statusCode: number, payload: object | Error) => {
   return {
-    statusCode: statusCode,
+    statusCode,
     body: JSON.stringify(payload, null, 2),
   };
-}
+};

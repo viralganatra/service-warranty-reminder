@@ -1,66 +1,48 @@
-import { GoogleSpreadsheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
-import { object, string } from 'yup';
-import { ParameterWithRequired } from '../../types/secrets';
-import getSSMParams from '../../utils/ssm';
-import validateSchema from '../../utils/validate-schema';
+import { GoogleSpreadsheet } from 'google-spreadsheet';
+import { JWT } from 'google-auth-library';
+import { getSSMParams } from '../../utils/ssm';
+import { serviceSchema } from '../../schemas/data.schema';
 
-const arr = <T extends string[]>(...o: T) => o;
-
-const SSM_PARAMS = arr('googleSpreadsheetId', 'googleServiceAccountEmail', 'googlePrivateKey');
-
-const secretsSchema = object({
-  googleServiceAccountEmail: object({
-    Value: string().required(),
-  }).required(),
-  googlePrivateKey: object({
-    Value: string().required(),
-  }).required(),
-  googleSpreadsheetId: object({
-    Value: string().required(),
-  }),
-}).required();
-
-interface DataRow extends GoogleSpreadsheetRow {
+type DataRow = {
   Property: string;
   'Certificate Type': string;
   'Expiry Date': string;
   Link: string;
-}
+};
 
-function getSecrets() {
-  return getSSMParams(SSM_PARAMS);
-}
+async function getSpreadsheetDoc() {
+  const secrets = await getSSMParams([
+    'googleSpreadsheetId',
+    'googleServiceAccountEmail',
+    'googlePrivateKey',
+  ]);
 
-function spreadsheetAuth(
-  document: GoogleSpreadsheet,
-  secrets: Record<typeof SSM_PARAMS[number], ParameterWithRequired>,
-) {
-  return document.useServiceAccountAuth({
-    client_email: secrets.googleServiceAccountEmail.Value,
-    private_key: secrets.googlePrivateKey.Value.replace(/\\n/gm, '\n'),
+  const serviceAccountAuth = new JWT({
+    email: secrets.googleServiceAccountEmail.Value,
+    key: secrets.googlePrivateKey.Value.replace(/\\n/g, '\n'),
+    scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
+
+  return new GoogleSpreadsheet(secrets.googleSpreadsheetId.Value, serviceAccountAuth);
 }
 
-export default async function getSpreadsheetData() {
-  const secrets = await getSecrets();
+export async function getSpreadsheetData() {
+  const doc = await getSpreadsheetDoc();
 
-  await validateSchema(secretsSchema.validate(secrets));
-
-  const doc = new GoogleSpreadsheet(secrets.googleSpreadsheetId.Value);
-
-  await spreadsheetAuth(doc, secrets);
   await doc.loadInfo();
 
-  const [sheet] = doc.sheetsByIndex;
+  const sheet = doc.sheetsByIndex[0];
 
-  const rows = (await sheet.getRows()) as DataRow[];
+  const rows = (await sheet?.getRows<DataRow>()) ?? [];
 
-  return rows
-    .filter((row) => row._rawData.length > 0)
-    .map((row) => ({
-      property: row.Property,
-      certificateType: row['Certificate Type'],
-      expiryDate: row['Expiry Date'],
-      linkToCertificate: row.Link,
-    }));
+  return rows.map((row) => {
+    const data = {
+      property: row.get('Property'),
+      certificateType: row.get('Certificate Type'),
+      expiryDate: row.get('Expiry Date'),
+      linkToCertificate: row.get('Link'),
+    };
+
+    return serviceSchema.parse(data);
+  });
 }

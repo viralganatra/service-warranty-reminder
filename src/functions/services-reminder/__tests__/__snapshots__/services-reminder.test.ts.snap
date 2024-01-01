@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Service reminder should send an email for service to notify 2`] = `
+exports[`Service reminder > should send an email for service to notify 2`] = `
 {
   "html": "
   <!DOCTYPE html>
@@ -94,7 +94,7 @@ exports[`Service reminder should send an email for service to notify 2`] = `
                 
     
       <h1>Warranty Expired!</h1>
-      <p>The cert 1 warranty for property 1 expired on 30-Apr-2022.</p>
+      <p>The cert 1 warranty for property 1 expired on Saturday, 30th April 2022.</p>
     
     <p>Please take action.</p>
     <hr />
@@ -120,7 +120,7 @@ exports[`Service reminder should send an email for service to notify 2`] = `
 }
 `;
 
-exports[`Service reminder should send an email for service to notify 3`] = `
+exports[`Service reminder > should send an email for service to notify 3`] = `
 {
   "html": "
   <!DOCTYPE html>
@@ -214,7 +214,7 @@ exports[`Service reminder should send an email for service to notify 3`] = `
                 
     
       <h1>Warranty Expiring!</h1>
-      <p>The cert 3 warranty for property 3 is expiring on 03-May-2022 (in 2 days time).</p>
+      <p>The cert 3 warranty for property 3 is expiring on Tuesday, 3rd May 2022 (in 2 days time).</p>
     
     <p>Please take action.</p>
     <hr />

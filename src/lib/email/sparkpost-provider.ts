@@ -1,5 +1,5 @@
 import SparkPost from 'sparkpost';
-import getSSMParams from '../../utils/ssm';
+import { getSSMParams } from '../../utils/ssm';
 
 export async function sendEmail({ subject, html, from }: SparkPost.InlineContent) {
   const secrets = await getSSMParams([

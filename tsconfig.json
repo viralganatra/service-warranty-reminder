@@ -1,14 +1,18 @@
 {
-  "extends": "@tsconfig/node16",
   "compilerOptions": {
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "useUnknownInCatchVariables": false,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "sourceMap": true,
-    "outDir": "build",
-    "baseUrl": ".",
-    "rootDir": "./"
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+    "lib": ["es2022"],
+    "types": ["vitest/globals"]
   }
 }

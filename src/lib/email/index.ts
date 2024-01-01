@@ -1,7 +1,7 @@
 import * as SparkPostProvider from './sparkpost-provider';
 import { SPARKPOST_PROVIDER } from '../../constants/email-providers';
 
-export default function sendEmail({ provider = SPARKPOST_PROVIDER, ...rest }) {
+export function sendEmail({ provider = SPARKPOST_PROVIDER, ...rest }) {
   let EmailProvider;
 
   switch (provider) {

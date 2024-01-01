@@ -8,7 +8,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs16.x
+  runtime: nodejs20.x
   region: eu-west-2
   logRetentionInDays: 30
 
@@ -39,15 +39,9 @@ functions:
       LOG_LEVEL: INFO
       NODE_OPTIONS: --enable-source-maps
     events:
-      - schedule: cron(0 10 * * ? *)
+    - schedule: cron(0 10 * * ? *)
 
 custom:
   prune:
     automatic: true
     number: 3
-
-  esbuild:
-    sourcemap: external
-    mainFields:
-      - module
-      - main

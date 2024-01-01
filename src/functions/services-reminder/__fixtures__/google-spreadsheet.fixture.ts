@@ -4,29 +4,23 @@ export const rawFixture = [
     ['Certificate Type']: 'cert 1',
     ['Expiry Date']: '16-May-2022',
     Link: 'https://www.google.com/1',
-    _rawData: [0, 1, 2, 3],
-  },
-  {
-    Property: null,
-    ['Certificate Type']: null,
-    ['Expiry Date']: null,
-    Link: null,
-    _rawData: [],
   },
   {
     Property: 'property 2',
     ['Certificate Type']: 'cert 2',
     ['Expiry Date']: '21-Dec-2024',
     Link: 'https://www.google.com/2',
-    _rawData: [0, 1, 2, 3],
   },
+];
+
+export const rawInvalidFixture = [
   {
     Property: null,
     ['Certificate Type']: null,
     ['Expiry Date']: null,
     Link: null,
-    _rawData: [],
   },
+  ...rawFixture,
 ];
 
 export const filteredFixture = [
@@ -61,3 +55,9 @@ export const filteredFixture = [
     linkToCertificate: 'https://www.google.com/5',
   },
 ];
+
+export const secretsFixture = {
+  googleServiceAccountEmail: 'test@test.com',
+  googlePrivateKey: 'private_key',
+  googleSpreadsheetId: '123',
+};

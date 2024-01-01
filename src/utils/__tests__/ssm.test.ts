@@ -1,15 +1,21 @@
-import { SSMClient, GetParametersCommand } from '@aws-sdk/client-ssm';
-import { mockClient } from 'aws-sdk-client-mock';
-import SSM from '../ssm';
+import {
+  SSMClient,
+  GetParametersCommand,
+  ServiceInputTypes,
+  ServiceOutputTypes,
+  SSMClientResolvedConfig,
+} from '@aws-sdk/client-ssm';
+import { AwsStub, mockClient } from 'aws-sdk-client-mock';
+import { getSSMParams } from '../ssm';
 
-const getSecretPath = (secret: string) => `${process.env.SSM_PATH}/${secret}`;
+const getSecretPath = (secret: string) => `/dev/test-service/${secret}`;
 
 describe('AWS Systems Manager secrets', () => {
-  const ssmMock = mockClient(SSMClient);
+  let ssmMock: AwsStub<ServiceInputTypes, ServiceOutputTypes, SSMClientResolvedConfig>;
 
-  beforeEach(() => ssmMock.reset());
+  beforeEach(() => {
+    ssmMock = mockClient(SSMClient);
 
-  it('should return an array of secret objects', async () => {
     ssmMock.on(GetParametersCommand).resolves({
       InvalidParameters: [],
       Parameters: [
@@ -23,8 +29,10 @@ describe('AWS Systems Manager secrets', () => {
         },
       ],
     });
+  });
 
-    const result = await SSM(['secret1', 'secret2']);
+  it('should return an array of secret objects', async () => {
+    const result = await getSSMParams(['secret1', 'secret2']);
 
     expect(ssmMock.call(0).args[0].input).toEqual({
       Names: [getSecretPath('secret1'), getSecretPath('secret2')],
@@ -43,12 +51,18 @@ describe('AWS Systems Manager secrets', () => {
     });
   });
 
+  it('should use the correct region', async () => {
+    await getSSMParams(['secret1', 'secret2']);
+
+    expect(await ssmMock.call(0).thisValue.config.region()).toBe('eu-west-1');
+  });
+
   it('should throw an error if there are any invalid parameters', async () => {
     ssmMock.on(GetParametersCommand).resolves({
       InvalidParameters: ['secret1'],
     });
 
-    await expect(SSM(['secret1', 'secret2'])).rejects.toThrow(
+    await expect(getSSMParams(['secret1', 'secret2'])).rejects.toThrow(
       'Invalid key names for AWS Parameter Store: secret1',
     );
   });
@@ -59,7 +73,7 @@ describe('AWS Systems Manager secrets', () => {
       Parameters: [],
     });
 
-    await expect(SSM(['secret1', 'secret2'])).rejects.toThrow(
+    await expect(getSSMParams(['secret1', 'secret2'])).rejects.toThrow(
       'No parameters returned from AWS Parameter Store',
     );
   });

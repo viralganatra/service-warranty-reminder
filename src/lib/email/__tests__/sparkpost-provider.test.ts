@@ -1,17 +1,29 @@
 import SparkPost from 'sparkpost';
 import * as SparkPostProvider from '../sparkpost-provider';
 
-const sendMock = jest.fn();
+const sendMock = vi.fn();
 
-jest.mock('../../../utils/ssm');
-
-jest.mock('sparkpost', () =>
-  jest.fn(() => ({
+vi.mock('sparkpost', () => ({
+  default: vi.fn(() => ({
     transmissions: {
       send: sendMock,
     },
   })),
-);
+}));
+
+vi.mock('../../../utils/ssm', () => ({
+  getSSMParams: vi.fn(() => ({
+    SparkPostApiKey: {
+      Value: 'SparkPostApiKey',
+    },
+    SparkPostEmailListId: {
+      Value: 'SparkPostEmailListId',
+    },
+    emailFromAddress: {
+      Value: 'test@test.com',
+    },
+  })),
+}));
 
 describe('SparkPost email provider', () => {
   const defaults = {
@@ -19,14 +31,14 @@ describe('SparkPost email provider', () => {
     html: '<div>hello world</div>',
   };
 
-  afterEach(() => sendMock.mockReset());
+  afterEach(() => {
+    sendMock.mockReset();
+  });
 
   it('should initialise the SparkPost provider with the correct configuration', async () => {
-    const mockSparkPost = SparkPost as jest.Mock;
-
     await SparkPostProvider.sendEmail(defaults);
 
-    expect(mockSparkPost).toBeCalledWith('SparkPostApiKey', {
+    expect(SparkPost).toHaveBeenCalledWith('SparkPostApiKey', {
       origin: 'https://api.eu.sparkpost.com:443',
     });
   });
@@ -34,10 +46,10 @@ describe('SparkPost email provider', () => {
   it('should send an email to a list of recipients', async () => {
     await SparkPostProvider.sendEmail(defaults);
 
-    expect(sendMock).toBeCalledTimes(1);
-    expect(sendMock).toBeCalledWith({
+    expect(sendMock).toHaveBeenCalledTimes(1);
+    expect(sendMock).toHaveBeenCalledWith({
       content: {
-        from: 'Property Service Warranty <emailFromAddress>',
+        from: 'Property Service Warranty <test@test.com>',
         html: '<div>hello world</div>',
         subject: 'subject',
       },

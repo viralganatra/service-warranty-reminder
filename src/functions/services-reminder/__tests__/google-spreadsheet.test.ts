@@ -1,55 +1,63 @@
 import { GoogleSpreadsheet } from 'google-spreadsheet';
-import googleSpreadsheet from '../google-spreadsheet';
-import { rawFixture } from '../__fixtures__/google-spreadsheet';
+import { getSpreadsheetData } from '../google-spreadsheet';
+import {
+  rawFixture,
+  rawInvalidFixture,
+  secretsFixture,
+} from '../__fixtures__/google-spreadsheet.fixture';
 
-const spyServiceAccountAuth = jest.fn();
+type Fixture = typeof rawFixture | typeof rawInvalidFixture;
 
-jest.mock('../../../utils/ssm');
+const fixtureWithGet = (fixture: Fixture) =>
+  fixture.map((item) => ({
+    get: (name: keyof typeof item) => item[name],
+  }));
 
-jest.mock('google-spreadsheet', () => ({
-  GoogleSpreadsheet: jest.fn(() => ({
-    useServiceAccountAuth: spyServiceAccountAuth,
-    loadInfo: () => Promise.resolve(),
-    sheetsByIndex: [{ getRows: () => Promise.resolve(rawFixture) }],
+const mockLoadSpreadsheetInfo = vi.fn(() => Promise.resolve());
+
+vi.mock('../../../utils/ssm', () => ({
+  getSSMParams: vi.fn(() => ({
+    googleServiceAccountEmail: {
+      Value: secretsFixture.googleServiceAccountEmail,
+    },
+    googlePrivateKey: {
+      Value: secretsFixture.googlePrivateKey,
+    },
+    googleSpreadsheetId: {
+      Value: secretsFixture.googleSpreadsheetId,
+    },
   })),
 }));
 
-describe('Google Spreadhseet', () => {
+vi.mock('google-spreadsheet', () => ({
+  GoogleSpreadsheet: vi.fn(() => ({
+    loadInfo: mockLoadSpreadsheetInfo,
+    sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawFixture)) }],
+  })),
+}));
+
+describe('Google Spreadsheet', () => {
   afterEach(() => {
-    jest.clearAllMocks();
-    jest.resetModules();
+    vi.clearAllMocks();
+    vi.resetModules();
   });
 
-  it('should use the correct spreadsheet id to initialise the gsheet', async () => {
-    const spyConstructor = GoogleSpreadsheet as jest.Mock;
+  it('should return an array of services', async () => {
+    const data = await getSpreadsheetData();
 
-    await googleSpreadsheet();
+    expect(mockLoadSpreadsheetInfo).toHaveBeenCalledOnce();
 
-    expect(spyConstructor).toBeCalledWith('googleSpreadsheetId');
-  });
-
-  it('should authorise the gsheet', async () => {
-    await googleSpreadsheet();
-
-    expect(spyServiceAccountAuth).toBeCalledTimes(1);
-    expect(spyServiceAccountAuth).toBeCalledWith({
-      client_email: 'googleServiceAccountEmail',
-      private_key: 'googlePrivateKey',
-    });
-  });
-
-  it('should return an array of secret objects', async () => {
-    expect(await googleSpreadsheet()).toMatchInlineSnapshot(`
+    expect(data).toMatchInlineSnapshot(`
       [
         {
           "certificateType": "cert 1",
-          "expiryDate": "16-May-2022",
+          "expiryDate": 2022-05-15T23:00:00.000Z,
           "linkToCertificate": "https://www.google.com/1",
           "property": "property 1",
         },
         {
           "certificateType": "cert 2",
-          "expiryDate": "21-Dec-2024",
+          "expiryDate": 2024-12-21T00:00:00.000Z,
           "linkToCertificate": "https://www.google.com/2",
           "property": "property 2",
         },
@@ -57,20 +65,29 @@ describe('Google Spreadhseet', () => {
     `);
   });
 
-  it('should throw an error if the schema validation fails', async () => {
-    jest.doMock('../../../utils/ssm', () => ({
-      __esModule: true,
-      default: () => ({
-        googleSpreadsheetId: {
-          Value: 'googleSpreadsheetId',
-        },
+  it('should authenticate and fetch the correct spreadsheet', async () => {
+    await getSpreadsheetData();
+
+    expect(GoogleSpreadsheet).toHaveBeenCalledWith(
+      secretsFixture.googleSpreadsheetId,
+      expect.objectContaining({
+        key: secretsFixture.googlePrivateKey,
+        email: secretsFixture.googleServiceAccountEmail,
+        scopes: ['https://www.googleapis.com/auth/spreadsheets'],
       }),
+    );
+  });
+
+  it('should throw an error if the data is invalid', async () => {
+    vi.doMock('google-spreadsheet', () => ({
+      GoogleSpreadsheet: vi.fn(() => ({
+        loadInfo: mockLoadSpreadsheetInfo,
+        sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawInvalidFixture)) }],
+      })),
     }));
 
-    const gsheet = await import('../google-spreadsheet');
+    const data = await import('../google-spreadsheet');
 
-    await expect(gsheet.default()).rejects.toThrowErrorMatchingInlineSnapshot(
-      `"ValidationError: googlePrivateKey.Value is a required field"`,
-    );
+    await expect(data.getSpreadsheetData()).rejects.toThrowError();
   });
 });

@@ -1,5 +1,6 @@
+import { format } from 'date-fns';
 import template from '../../utils/email-template';
-import { ServiceWithExpiration } from '../../types/data';
+import { ServiceWithExpiration } from '../../schemas/data.schema';
 
 function getSuccessTemplate({
   linkToCertificate,
@@ -9,16 +10,18 @@ function getSuccessTemplate({
   expiringInDays,
   hasExpired,
 }: ServiceWithExpiration) {
+  const date = format(expiryDate, 'EEEE, do MMMM yyyy');
+
   return template(`
     ${
       hasExpired
         ? `
       <h1>Warranty Expired!</h1>
-      <p>The ${certificateType} warranty for ${property} expired on ${expiryDate}.</p>
+      <p>The ${certificateType} warranty for ${property} expired on ${date}.</p>
     `
         : `
       <h1>Warranty Expiring!</h1>
-      <p>The ${certificateType} warranty for ${property} is expiring on ${expiryDate} (in ${expiringInDays} days time).</p>
+      <p>The ${certificateType} warranty for ${property} is expiring on ${date} (in ${expiringInDays} days time).</p>
     `
     }
     <p>Please take action.</p>
@@ -32,7 +35,7 @@ function getSuccessTemplate({
   `);
 }
 
-function getErrorTemplate(data: string | object) {
+function getErrorTemplate(data: string | Error) {
   return template(`
     <h1>Something went wrong with property service warranty</h1>
     <p>Please check the logs for errors</p>
@@ -53,7 +56,7 @@ export function getSuccessEmail(data: ServiceWithExpiration) {
   };
 }
 
-export function getErrorEmail(data: string | object) {
+export function getErrorEmail(data: string | Error) {
   return {
     subject: 'Error with property service warranty',
     html: getErrorTemplate(data),

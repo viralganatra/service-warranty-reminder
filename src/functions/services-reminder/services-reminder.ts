@@ -1,32 +1,18 @@
 import { differenceInHours, startOfToday } from 'date-fns';
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
+import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
 import { Logger } from '@aws-lambda-powertools/logger';
-import { array, object, string } from 'yup';
 import { getSuccessEmail, getErrorEmail } from './generate-email-template';
-import googleSpreadsheet from './google-spreadsheet';
-import sendEmail from '../../lib/email';
-import formatResponse from '../../utils/format-response';
-import validateSchema from '../../utils/validate-schema';
-import { Service, ServiceWithExpiration } from '../../types/data';
+import { getSpreadsheetData } from './google-spreadsheet';
+import { sendEmail } from '../../lib/email';
+import { formatResponse } from '../../utils/format-response';
+import { Service, ServiceWithExpiration } from '../../schemas/data.schema';
 
 const HOURS_IN_DAY = 24;
 const REMIND_IN_DAYS = [2, 7, 14];
 
-const dataSchema = array(
-  object({
-    property: string().required(),
-    certificateType: string().required(),
-    expiryDate: string().required(),
-    linkToCertificate: string().required(),
-  }),
-).required();
-
 function getServiceToNotify(service: Service): ServiceWithExpiration | null {
-  // Probably not the best idea using Date.parse given inconsistencies in
-  // non-standard date strings but YOLO...
-  const formattedExpiryDate = new Date(Date.parse(service.expiryDate));
   const expiringInDays = Math.floor(
-    differenceInHours(formattedExpiryDate, startOfToday()) / HOURS_IN_DAY,
+    differenceInHours(service.expiryDate, startOfToday()) / HOURS_IN_DAY,
   );
   const hasExpired = expiringInDays === -1;
 
@@ -38,11 +24,7 @@ function getServiceToNotify(service: Service): ServiceWithExpiration | null {
 }
 
 async function getAllServicesToNotify(services: Service[]) {
-  await validateSchema(dataSchema.validate(services));
-
-  return services
-    .map((service) => getServiceToNotify(service))
-    .filter(Boolean) as ServiceWithExpiration[];
+  return services.map((service) => getServiceToNotify(service)).filter(Boolean);
 }
 
 async function notifyAllExpiringServices(
@@ -60,14 +42,14 @@ async function notifyAllExpiringServices(
   return Promise.all(promises);
 }
 
-const servicesReminder =
+export const servicesReminder =
   ({ logger }: { logger: Logger }) =>
-  async (event: APIGatewayProxyEvent, context: Context) => {
+  async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
     logger.addContext(context);
     logger.debug('Starting check');
 
     try {
-      const data = await googleSpreadsheet();
+      const data = await getSpreadsheetData();
       const servicesToNotify = await getAllServicesToNotify(data);
 
       if (!servicesToNotify.length) {
@@ -79,14 +61,22 @@ const servicesReminder =
 
       return formatResponse(200, { message: 'Ok' });
     } catch (err) {
-      logger.error(err.toString(), err as Error);
+      let message;
 
-      await sendEmail(getErrorEmail(err.stack));
+      if (err instanceof Error) {
+        const error = err.toString();
 
-      return formatResponse(500, err.toString());
+        message = err.message;
+
+        logger.error(error, err);
+
+        await sendEmail(getErrorEmail(err.stack || error));
+      } else {
+        message = String(err);
+      }
+
+      return formatResponse(500, { message });
     } finally {
       logger.debug('Finished check');
     }
   };
-
-export default servicesReminder;

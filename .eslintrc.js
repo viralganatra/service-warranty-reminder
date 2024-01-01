@@ -2,12 +2,13 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   env: {
     node: true,
-    es2020: true,
+    es2022: true,
   },
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
   },
   plugins: ['@typescript-eslint'],
+  ignorePatterns: ['config/**/*'],
   extends: [
     'eslint:recommended',
     'plugin:node/recommended',
@@ -19,7 +20,7 @@ module.exports = {
     'node/no-unpublished-import': [
       'error',
       {
-        allowModules: ['aws-sdk-client-mock'],
+        allowModules: ['aws-sdk-client-mock', 'aws-lambda', 'vitest', '@total-typescript/ts-reset'],
       },
     ],
   },

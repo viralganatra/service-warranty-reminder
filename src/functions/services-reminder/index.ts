@@ -1,1 +1,1 @@
-export { default } from './services-reminder';
+export { servicesReminder } from './services-reminder';

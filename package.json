@@ -6,7 +6,7 @@
     "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js",
     "start": "serverless offline start",
     "run:local": "sls invoke local -f services-reminder",
-    "deploy": "serverless deploy --stage prod",
+    "deploy:prod": "serverless deploy --stage prod",
     "deploy:dev": "serverless deploy --stage dev",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write .",

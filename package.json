@@ -10,7 +10,7 @@
     "deploy:dev": "serverless deploy --stage dev",
     "lint": "eslint . --ext .js,.ts",
     "format": "prettier --write .",
-    "test": "vitest",
+    "test": "TZ='utc' vitest",
     "typecheck": "tsc -b",
     "prepare": "husky install",
     "validate": "./scripts/validate.sh"

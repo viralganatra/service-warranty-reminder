@@ -51,7 +51,7 @@ describe('Google Spreadsheet', () => {
       [
         {
           "certificateType": "cert 1",
-          "expiryDate": 2022-05-15T23:00:00.000Z,
+          "expiryDate": 2022-05-16T00:00:00.000Z,
           "linkToCertificate": "https://www.google.com/1",
           "property": "property 1",
         },

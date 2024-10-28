@@ -28,7 +28,7 @@
     "@aws-sdk/types": "^3.664.0",
     "@total-typescript/ts-reset": "^0.5.1",
     "@types/aws-lambda": "^8.10.145",
-    "@types/node": "^20.10.6",
+    "@types/node": "^20.17.1",
     "@types/serverless": "^3.12.22",
     "@types/sparkpost": "^2.1.8",
     "@typescript-eslint/eslint-plugin": "^6.17.0",

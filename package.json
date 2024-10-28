@@ -16,7 +16,7 @@
     "validate": "./scripts/validate.sh"
   },
   "dependencies": {
-    "@aws-lambda-powertools/logger": "^1.17.0",
+    "@aws-lambda-powertools/logger": "^2.10.0",
     "@aws-sdk/client-ssm": "^3.678.0",
     "date-fns": "^3.0.6",
     "google-auth-library": "^9.14.2",

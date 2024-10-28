@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@aws-lambda-powertools/logger':
-        specifier: ^1.17.0
-        version: 1.17.0
+        specifier: ^2.10.0
+        version: 2.10.0
       '@aws-sdk/client-ssm':
         specifier: ^3.678.0
         version: 3.679.0
@@ -143,13 +143,13 @@ packages:
   '@aws-crypto/util@5.2.0':
     resolution: {integrity: sha512-4RkU9EsI6ZpBve5fseQlGNUWKMa1RLPQ1dnjnQoe07ldfIzcsGb5hC5W0Dm7u423KWzawlrpbjXBrXCEv9zazQ==}
 
-  '@aws-lambda-powertools/commons@1.17.0':
-    resolution: {integrity: sha512-eZbOUGKH+oNG49oObXucffTdUyj0XmQTnddgDWmSWLgAQ4/L60n7x80hYOTCmDqATxPoA4ADa+fzAxGx0hyaxQ==}
+  '@aws-lambda-powertools/commons@2.10.0':
+    resolution: {integrity: sha512-XHC0FW/k33JWc2SZ9pbOJQPzNCMoRGnRuX/Cx1CYXRvRnaLYkPNRPrPYvGWy1OInAS3GSK6zxP1Asx0k4uaqSw==}
 
-  '@aws-lambda-powertools/logger@1.17.0':
-    resolution: {integrity: sha512-HdesKvINDebLsxEyLzjEvn4ZiO3lYnl9Ol7GuRGgSTsB4byEeRbhAghCGCPZb0CA/NaDVQleaLTTjjsJjm6I7A==}
+  '@aws-lambda-powertools/logger@2.10.0':
+    resolution: {integrity: sha512-QsVnoCBf6gKneGmSrIj1nxf34jWWOyDu4PO3I+VwkaH60lph2dIVcF1pP1zZagxUoYt9WWiddHcGQ7ORo0z5iw==}
     peerDependencies:
-      '@middy/core': '>=3.x'
+      '@middy/core': 4.x || 5.x
     peerDependenciesMeta:
       '@middy/core':
         optional: true
@@ -4034,11 +4034,11 @@ snapshots:
       '@smithy/util-utf8': 2.0.2
       tslib: 2.6.2
 
-  '@aws-lambda-powertools/commons@1.17.0': {}
+  '@aws-lambda-powertools/commons@2.10.0': {}
 
-  '@aws-lambda-powertools/logger@1.17.0':
+  '@aws-lambda-powertools/logger@2.10.0':
     dependencies:
-      '@aws-lambda-powertools/commons': 1.17.0
+      '@aws-lambda-powertools/commons': 2.10.0
       lodash.merge: 4.6.2
 
   '@aws-sdk/client-cloudformation@3.484.0':

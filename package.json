@@ -12,7 +12,7 @@
     "format": "prettier --write .",
     "test": "TZ='utc' vitest",
     "typecheck": "tsc -b",
-    "prepare": "husky install",
+    "prepare": "husky",
     "validate": "./scripts/validate.sh"
   },
   "dependencies": {
@@ -40,7 +40,7 @@
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-node": "^11.1.0",
-    "husky": "^8.0.3",
+    "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "serverless": "^3.38.0",

@@ -18,7 +18,7 @@
   "dependencies": {
     "@aws-lambda-powertools/logger": "^2.10.0",
     "@aws-sdk/client-ssm": "^3.678.0",
-    "date-fns": "^3.0.6",
+    "date-fns": "^4.1.0",
     "google-auth-library": "^9.14.2",
     "google-spreadsheet": "^4.1.4",
     "sparkpost": "^2.1.4",

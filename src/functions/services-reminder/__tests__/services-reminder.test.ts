@@ -1,57 +1,63 @@
-import { Logger } from '@aws-lambda-powertools/logger';
-import { APIGatewayProxyEvent, Context } from 'aws-lambda';
-import { Mock } from 'vitest';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 import { servicesReminder } from '../services-reminder';
 import { filteredFixture } from '../__fixtures__/google-spreadsheet.fixture';
-import { sendEmail } from '../../../lib/email';
 import { GenericError } from '../../../errors';
+import { logger } from '../../../utils/logger';
+
+const mockSendEmail = vi.hoisted(() => vi.fn());
 
 vi.mock('../google-spreadsheet', () => ({
   getSpreadsheetData: () => filteredFixture,
 }));
 
 vi.mock('../../../lib/email', () => ({
-  sendEmail: vi.fn(),
+  sendEmail: mockSendEmail,
 }));
 
 describe('Service reminder', () => {
-  let logger: Logger;
   let proxy: APIGatewayProxyEvent;
-  let context: Context;
+
+  const context = {
+    callbackWaitsForEmptyEventLoop: true,
+    functionName: 'test',
+    functionVersion: 'test',
+    invokedFunctionArn: 'test',
+    memoryLimitInMB: 'test',
+    awsRequestId: 'test',
+    logGroupName: 'test',
+    logStreamName: 'test',
+    getRemainingTimeInMillis: () => 2,
+    done: () => {},
+    fail: () => {},
+    succeed: () => {},
+  };
 
   beforeEach(() => {
     vi.useFakeTimers();
-
-    logger = new (vi.fn())();
-    proxy = new (vi.fn())();
-    context = new (vi.fn())();
-
-    logger.addContext = vi.fn();
-    logger.debug = vi.fn();
-    logger.info = vi.fn();
-    logger.error = vi.fn();
   });
 
   afterEach(() => {
-    vi.resetAllMocks();
     vi.resetModules();
     vi.useRealTimers();
   });
 
   it('should add the context to the logger and log default messages', async () => {
+    const contextSpy = vi.spyOn(logger, 'addContext');
+    const debugSpy = vi.spyOn(logger, 'debug');
+
     await servicesReminder({ logger })(proxy, context);
 
-    expect((logger.addContext as Mock).mock.calls[0][0]).toBe(context);
-    expect(logger.debug).toHaveBeenNthCalledWith(1, 'Starting check');
-    expect(logger.debug).toHaveBeenLastCalledWith('Finished check');
+    expect(contextSpy).toHaveBeenCalledWith(context);
+    expect(debugSpy).toHaveBeenNthCalledWith(1, 'Starting check');
+    expect(debugSpy).toHaveBeenLastCalledWith('Finished check');
   });
 
   it('should send an email for service to notify', async () => {
     vi.setSystemTime(new Date('2022-05-01'));
-    const mockSendEmail = sendEmail as Mock;
+    const loggerSpy = vi.spyOn(logger, 'info');
     const result = await servicesReminder({ logger })(proxy, context);
 
-    expect(logger.info).toHaveBeenLastCalledWith(
+    expect(loggerSpy).toHaveBeenLastCalledWith(
       'Sending email for Property: property 5 cert 5 15-May-2022',
     );
     expect(logger.info).toHaveBeenCalledTimes(4);
@@ -64,14 +70,27 @@ describe('Service reminder', () => {
       }
     `);
     expect(mockSendEmail).toHaveBeenCalledTimes(4);
-    expect(mockSendEmail.mock.calls[0][0]).toMatchSnapshot();
-    expect(mockSendEmail.mock.calls[1][0]).toMatchSnapshot();
+
+    expect(mockSendEmail).toHaveBeenNthCalledWith(
+      1,
+      expect.objectContaining({
+        subject: 'cert 1 warranty expired for property 1 - please take action',
+      }),
+    );
+
+    expect(mockSendEmail).toHaveBeenNthCalledWith(
+      2,
+      expect.objectContaining({
+        subject: 'cert 3 warranty expiring for property 3 - please take action',
+      }),
+    );
   });
 
   it('should not send an email if there are no services to notify', async () => {
     vi.setSystemTime(new Date('2023-01-01'));
+    const loggerSpy = vi.spyOn(logger, 'info');
     const result = await servicesReminder({ logger })(proxy, context);
-    expect(logger.info).toHaveBeenLastCalledWith('No emails to send');
+    expect(loggerSpy).toHaveBeenLastCalledWith('No emails to send');
     expect(result).toMatchInlineSnapshot(`
       {
         "body": "{
@@ -90,6 +109,7 @@ describe('Service reminder', () => {
       },
     }));
 
+    const errorSpy = vi.spyOn(logger, 'error');
     const { servicesReminder: localServicesReminder } = await import('../services-reminder');
 
     const result = await localServicesReminder({ logger })(proxy, context);
@@ -102,8 +122,8 @@ describe('Service reminder', () => {
         "statusCode": 500,
       }
     `);
-    expect(logger.error).toHaveBeenCalled();
-    expect(sendEmail).toHaveBeenCalledWith(
+    expect(errorSpy).toHaveBeenCalled();
+    expect(mockSendEmail).toHaveBeenCalledWith(
       expect.objectContaining({
         subject: 'Error with property service warranty',
         html: expect.any(String),

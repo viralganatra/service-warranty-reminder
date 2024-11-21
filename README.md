@@ -12,7 +12,7 @@ This project takes reads a Google Sheet, parses the expiry date of a given certi
 
 ## Tech stack
 
-This is a [Serverless](https://www.serverless.com/) project written in TypeScript that deploys a Lambda to AWS. It runs on a schedule of once a day. It uses [SparkPost](https://www.sparkpost.com/) to send email notifications.
+This is a [Serverless](https://www.sst.dev/) project written in TypeScript that deploys a Lambda to AWS. It runs on a schedule of once a day. It uses [SparkPost](https://www.sparkpost.com/) to send email notifications.
 
 ## How does it work
 

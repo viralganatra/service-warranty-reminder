@@ -10,10 +10,11 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-empty-function': ['off'],
       '@typescript-eslint/consistent-type-definitions': ['off'],
+      '@typescript-eslint/triple-slash-reference': ['off'],
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', 'build/', '.esbuild/', '.prettierrc.js', 'config/'],
+    ignores: ['.sst/', 'node_modules/', '.prettierrc.js', 'config/', 'sst-env.d.ts'],
   },
   prettierlint,
 );

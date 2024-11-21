@@ -1,9 +1,5 @@
 node_modules
-.serverless
 .env
-creds
 .DS_Store
 .bak
-dist
-build
-.build
+.sst

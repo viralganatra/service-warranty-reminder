@@ -3,17 +3,17 @@
   "author": "Viral Ganatra <viral@viralganatra.com>",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/index.js",
-    "start": "serverless offline start",
-    "run:local": "sls invoke local -f services-reminder",
-    "deploy:prod": "serverless deploy --stage prod",
-    "deploy:dev": "serverless deploy --stage dev",
-    "lint": "eslint .",
+    "deploy:dev": "sst deploy --stage development",
+    "deploy:prod": "sst deploy --stage production",
+    "deploy:remove": "sst remove",
     "format": "prettier --write .",
+    "lint": "eslint .",
+    "prepare": "husky",
+    "dev": "sst dev",
     "test": "TZ='utc' vitest",
     "typecheck": "tsc -b",
-    "prepare": "husky",
-    "validate": "./scripts/validate.sh"
+    "validate": "./scripts/validate.sh",
+    "sso": "aws sso login --sso-session=swr"
   },
   "dependencies": {
     "@aws-lambda-powertools/logger": "^2.10.0",
@@ -27,7 +27,7 @@
   "devDependencies": {
     "@aws-sdk/types": "^3.686.0",
     "@total-typescript/ts-reset": "^0.6.1",
-    "@types/aws-lambda": "^8.10.145",
+    "@types/aws-lambda": "8.10.145",
     "@types/node": "^20.17.1",
     "@types/serverless": "^3.12.23",
     "@types/sparkpost": "^2.1.8",
@@ -40,10 +40,7 @@
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
-    "serverless": "^3.39.0",
-    "serverless-esbuild": "^1.54.5",
-    "serverless-offline": "^13.8.3",
-    "serverless-prune-plugin": "^2.1.0",
+    "sst": "3.3.22",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.14.0",
     "vitest": "^2.1.4"

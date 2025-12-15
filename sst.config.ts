@@ -26,7 +26,7 @@ export default $config({
       job: {
         handler: 'handler.servicesReminder',
         name: `${$app.stage}--${SERVICE_NAME}`,
-        runtime: 'nodejs20.x',
+        runtime: 'nodejs22.x',
         environment: {
           SERVICE_NAME,
           SSM_PATH: ssmPath,

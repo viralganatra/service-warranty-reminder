@@ -19,8 +19,8 @@
     "@aws-lambda-powertools/logger": "^2.30.0",
     "@aws-sdk/client-ssm": "^3.948.0",
     "date-fns": "^4.1.0",
-    "google-auth-library": "^9.14.2",
-    "google-spreadsheet": "^4.1.4",
+    "google-auth-library": "^10.5.0",
+    "google-spreadsheet": "^5.0.2",
     "sparkpost": "^2.1.4",
     "zod": "^3.23.8"
   },

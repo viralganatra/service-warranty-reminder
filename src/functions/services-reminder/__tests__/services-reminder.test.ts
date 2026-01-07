@@ -15,7 +15,7 @@ vi.mock('../../../lib/email', () => ({
 }));
 
 describe('Service reminder', () => {
-  let proxy: APIGatewayProxyEvent;
+  const proxy = {} as APIGatewayProxyEvent;
 
   const context = {
     callbackWaitsForEmptyEventLoop: true,

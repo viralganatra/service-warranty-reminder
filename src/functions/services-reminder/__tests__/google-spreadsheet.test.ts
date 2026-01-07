@@ -30,10 +30,12 @@ vi.mock('../../../utils/ssm', () => ({
 }));
 
 vi.mock('google-spreadsheet', () => ({
-  GoogleSpreadsheet: vi.fn(() => ({
-    loadInfo: mockLoadSpreadsheetInfo,
-    sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawFixture)) }],
-  })),
+  GoogleSpreadsheet: vi.fn(function () {
+    return {
+      loadInfo: mockLoadSpreadsheetInfo,
+      sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawFixture)) }],
+    };
+  }),
 }));
 
 describe('Google Spreadsheet', () => {
@@ -80,10 +82,12 @@ describe('Google Spreadsheet', () => {
 
   it('should throw an error if the data is invalid', async () => {
     vi.doMock('google-spreadsheet', () => ({
-      GoogleSpreadsheet: vi.fn(() => ({
-        loadInfo: mockLoadSpreadsheetInfo,
-        sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawInvalidFixture)) }],
-      })),
+      GoogleSpreadsheet: vi.fn(function () {
+        return {
+          loadInfo: mockLoadSpreadsheetInfo,
+          sheetsByIndex: [{ getRows: () => Promise.resolve(fixtureWithGet(rawInvalidFixture)) }],
+        };
+      }),
     }));
 
     const data = await import('../google-spreadsheet');

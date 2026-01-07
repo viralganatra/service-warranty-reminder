@@ -4,11 +4,13 @@ import * as SparkPostProvider from '../sparkpost-provider';
 const sendMock = vi.fn();
 
 vi.mock('sparkpost', () => ({
-  default: vi.fn(() => ({
-    transmissions: {
-      send: sendMock,
-    },
-  })),
+  default: vi.fn(function () {
+    return {
+      transmissions: {
+        send: sendMock,
+      },
+    };
+  }),
 }));
 
 vi.mock('../../../utils/ssm', () => ({

@@ -1,11 +1,11 @@
 import { differenceInHours, startOfToday } from 'date-fns';
-import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
-import { Logger } from '@aws-lambda-powertools/logger';
+import type { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from 'aws-lambda';
+import type { Logger } from '@aws-lambda-powertools/logger';
 import { getSuccessEmail, getErrorEmail } from './generate-email-template';
 import { getSpreadsheetData } from './google-spreadsheet';
 import { sendEmail } from '../../lib/email';
 import { formatResponse } from '../../utils/format-response';
-import { Service, ServiceWithExpiration } from '../../schemas/data.schema';
+import type { Service, ServiceWithExpiration } from '../../schemas/data.schema';
 
 const HOURS_IN_DAY = 24;
 const REMIND_IN_DAYS = [2, 7, 14];
@@ -44,7 +44,7 @@ async function notifyAllExpiringServices(
 
 export const servicesReminder =
   ({ logger }: { logger: Logger }) =>
-  async (event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
+  async (_event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> => {
     logger.addContext(context);
     logger.debug('Starting check');
 
@@ -61,7 +61,7 @@ export const servicesReminder =
 
       return formatResponse(200, { message: 'Ok' });
     } catch (err) {
-      let message;
+      let message: string;
 
       if (err instanceof Error) {
         const error = err.toString();

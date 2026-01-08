@@ -6,8 +6,8 @@
     "deploy:dev": "sst deploy --stage development",
     "deploy:prod": "sst deploy --stage production",
     "deploy:remove": "sst remove",
-    "format": "prettier --write .",
-    "lint": "eslint .",
+    "format": "biome format --write",
+    "lint": "biome lint",
     "prepare": "husky",
     "dev": "sst dev",
     "test": "TZ='utc' vitest",
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@aws-sdk/types": "^3.936.0",
+    "@biomejs/biome": "2.3.10",
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/aws-lambda": "^8.10.159",
     "@types/node": "^22.19.2",
@@ -34,14 +35,10 @@
     "aws-sdk-client-mock": "^4.1.0",
     "concurrently": "^9.2.1",
     "esbuild": "^0.24.0",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.7.4",
     "sst": "^3.17.25",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.49.0",
     "vitest": "^4.0.16"
   },
   "lint-staged": {

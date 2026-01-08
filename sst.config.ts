@@ -21,18 +21,28 @@ export default $config({
     const ssmPath = $app.stage === 'production' ? `/prod/${SERVICE_NAME}` : `/dev/${SERVICE_NAME}`;
     const current = await aws.getCallerIdentity();
 
+    $transform(sst.aws.Function, (args) => {
+      args.runtime = 'nodejs22.x';
+      args.url ??= $dev ? { authorization: 'iam' } : false;
+      args.logging = {
+        format: 'json',
+        retention: '1 year',
+        ...args.logging,
+      };
+      args.environment = {
+        POWERTOOLS_DEV: String($dev),
+        ...args.environment,
+      };
+    });
+
     new sst.aws.Cron('swrcron', {
       schedule: 'cron(0 10 * * ? *)',
       job: {
         handler: 'handler.servicesReminder',
         name: `${$app.stage}--${SERVICE_NAME}`,
-        runtime: 'nodejs22.x',
         environment: {
           SERVICE_NAME,
           SSM_PATH: ssmPath,
-        },
-        logging: {
-          format: 'json',
         },
         permissions: [
           {

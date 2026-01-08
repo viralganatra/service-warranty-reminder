@@ -1,14 +1,14 @@
 export const rawFixture = [
   {
     Property: 'property 1',
-    ['Certificate Type']: 'cert 1',
-    ['Expiry Date']: '16-May-2022',
+    'Certificate Type': 'cert 1',
+    'Expiry Date': '16-May-2022',
     Link: 'https://www.google.com/1',
   },
   {
     Property: 'property 2',
-    ['Certificate Type']: 'cert 2',
-    ['Expiry Date']: '21-Dec-2024',
+    'Certificate Type': 'cert 2',
+    'Expiry Date': '21-Dec-2024',
     Link: 'https://www.google.com/2',
   },
 ];
@@ -16,8 +16,8 @@ export const rawFixture = [
 export const rawInvalidFixture = [
   {
     Property: null,
-    ['Certificate Type']: null,
-    ['Expiry Date']: null,
+    'Certificate Type': null,
+    'Expiry Date': null,
     Link: null,
   },
   ...rawFixture,

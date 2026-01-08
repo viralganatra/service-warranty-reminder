@@ -1,6 +1,6 @@
 import { SSMClient, GetParametersCommand } from '@aws-sdk/client-ssm';
 import { SSMInvalidSecretsError, SSMNoParametersError } from '../errors';
-import { ParameterWithRequired } from '../types/parameter';
+import type { ParameterWithRequired } from '../types/parameter';
 
 const client = new SSMClient({ region: process.env.AWS_REGION });
 const pathPrefix = `${process.env.SSM_PATH}/`;

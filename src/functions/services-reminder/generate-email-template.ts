@@ -1,6 +1,6 @@
 import { format } from 'date-fns';
 import template from '../../utils/email-template';
-import { ServiceWithExpiration } from '../../schemas/data.schema';
+import type { ServiceWithExpiration } from '../../schemas/data.schema';
 
 function getSuccessTemplate({
   linkToCertificate,

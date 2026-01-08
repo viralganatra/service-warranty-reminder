@@ -1,4 +1,4 @@
-import { APIGatewayProxyEvent } from 'aws-lambda';
+import type { APIGatewayProxyEvent } from 'aws-lambda';
 import { servicesReminder } from '../services-reminder';
 import { filteredFixture } from '../__fixtures__/google-spreadsheet.fixture';
 import { GenericError } from '../../../errors';

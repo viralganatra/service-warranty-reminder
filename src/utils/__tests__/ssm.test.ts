@@ -1,11 +1,11 @@
 import {
   SSMClient,
   GetParametersCommand,
-  ServiceInputTypes,
-  ServiceOutputTypes,
-  SSMClientResolvedConfig,
+  type ServiceInputTypes,
+  type ServiceOutputTypes,
+  type SSMClientResolvedConfig,
 } from '@aws-sdk/client-ssm';
-import { AwsStub, mockClient } from 'aws-sdk-client-mock';
+import { type AwsStub, mockClient } from 'aws-sdk-client-mock';
 import { getSSMParams } from '../ssm';
 
 const getSecretPath = (secret: string) => `/dev/test-service/${secret}`;

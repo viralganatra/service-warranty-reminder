@@ -1,4 +1,4 @@
-import { Parameter } from '@aws-sdk/client-ssm';
+import type { Parameter } from '@aws-sdk/client-ssm';
 
 type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] };
 
